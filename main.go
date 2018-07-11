@@ -7,6 +7,7 @@ import (
 
 const (
 	appName = "Fingerguns"
+	command = "fgg"
 	version = "0.2.7"
 )
 

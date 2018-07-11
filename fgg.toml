@@ -1,0 +1,22 @@
+["build-webapp"]
+desc = "builds the frontend webapp bundle"
+exec = '''
+node_modules/.bin/webpack \
+    --config ./.config/webpack/webpack.config.js \
+    --env.mode=production \
+    --env.source=app \
+    --env.prodsourcemaps=true
+'''
+
+["build-renderer"]
+desc = "builds the webapp server renderer bundle"
+exec = '''
+node_modules/.bin/webpack \
+    --config ./.config/webpack/webpack.config.js \
+    --env.mode=production \
+    --env.source=renderer
+'''
+
+# ["test"]
+# desc = "runs unit tests on both the renderer and app"
+# exec = { cmd = "yarn", args = ["run", "test"] }

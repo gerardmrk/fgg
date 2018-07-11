@@ -13,30 +13,24 @@ import (
 
 func init() {
 	// flags
-	rootCmd.PersistentFlags().BoolVar(&verboseFlag, "verbose", false, "verbosity level")
-	rootCmd.PersistentFlags().BoolVar(&lockedFlag, "locked", true, "Disallow reading from stdin")
+	rootCmd.PersistentFlags().BoolVarP(&debugFlag, "debug", "d", false, "output debug information")
+	runCmd.PersistentFlags().BoolVarP(&quietFlag, "quiet", "q", false, "suppress stdout")
+	runCmd.PersistentFlags().BoolVarP(&silentFlag, "silent", "s", false, "suppress both stdout and stderr")
+	runCmd.PersistentFlags().BoolVarP(&lockdownFlag, "lockdown", "l", false, "disallow reading from stdin")
 	// subcommands
-	rootCmd.AddCommand(printVersionCmd)
 	rootCmd.AddCommand(validateCmd)
 	rootCmd.AddCommand(listDirectivesCmd)
 	rootCmd.AddCommand(runCmd)
 }
 
-var verboseFlag bool // output all logs from the cmd app
-var quietFlag bool   // suppress stdout but continue writing to stderr
-var quieterFlag bool // suppress both stdout and stderr
-var lockedFlag bool  // does not read any input from stdin
+var debugFlag bool    // output all logs from the cmd app
+var quietFlag bool    // suppress stdout but not stderr (useful for speed gains from output-heavy processes)
+var silentFlag bool   // suppress both stdout and stderr (not recommended)
+var lockdownFlag bool // does not read any input from stdin
 
 var rootCmd = &libcmd.Command{
-	Use: "fgg",
-}
-
-var printVersionCmd = &libcmd.Command{
-	Use:   "version",
-	Short: "Print the version number of fgg",
-	Run: func(cmd *libcmd.Command, args []string) {
-		fmt.Println(version)
-	},
+	Use:     command,
+	Version: version,
 }
 
 var validateCmd = &libcmd.Command{
